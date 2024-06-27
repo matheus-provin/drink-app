@@ -1,14 +1,40 @@
-import { StyleSheet } from 'react-native';
+/** @format */
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+import { StyleSheet } from "react-native";
+
+import { View } from "@/components/Themed";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { useEffect, useState } from "react";
+import { Input } from "../components/input/input.component";
 
 export default function TabOneScreen() {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const auth = getAuth();
+  function aa() {
+    signInWithEmailAndPassword(auth, "teste@firebase.com", "123456545");
+  }
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      console.log(user);
+    });
+  }, [auth]);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+      <Input placeholder='Email' />
+      {/* <TouchableOpacity
+        onPress={() => {
+          aa();
+        }} 
+      >
+        <Text>Test</Text>
+      </TouchableOpacity> */}
     </View>
   );
 }
@@ -16,16 +42,16 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   separator: {
     marginVertical: 30,
     height: 1,
-    width: '80%',
+    width: "80%",
   },
 });
