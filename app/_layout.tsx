@@ -13,6 +13,8 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/components/useColorScheme";
+import { RecoilRoot, useRecoilValue } from "recoil";
+import { authTokenRecoilState } from "./recoil/auth-token.recoil";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -48,17 +50,29 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return (
+    <RecoilRoot>
+      <RootLayoutNav />
+    </RecoilRoot>
+  );
 }
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
+  const auth = useRecoilValue(authTokenRecoilState);
+
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-        <Stack.Screen name='modal' options={{ presentation: "modal" }} />
+        {auth.token ? (
+          <>
+            <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+            <Stack.Screen name='modal' options={{ presentation: "modal" }} />
+          </>
+        ) : (
+          <Stack.Screen name='(auth)' options={{ headerShown: false }} />
+        )}
       </Stack>
     </ThemeProvider>
   );

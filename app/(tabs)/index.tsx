@@ -3,10 +3,11 @@
 import { Button, StyleSheet } from "react-native";
 
 import { Text, View } from "@/components/Themed";
-import { UserCredential, getAuth, onAuthStateChanged } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { UserCredential, getAuth } from "firebase/auth";
+import { useState } from "react";
 import { Input } from "../components/input/input.component";
-import { signInEmailPass } from "../modules/authentication/sign-in-email-pass";
+import { signInEmailPass } from "../config/sign-in-email-pass";
+import { useAuth } from "../hooks/use-auth";
 
 export default function TabOneScreen() {
   const [email, setEmail] = useState<string>("");
@@ -15,11 +16,13 @@ export default function TabOneScreen() {
 
   const auth = getAuth();
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      console.log(user);
-    });
-  }, [auth]);
+  const { logout } = useAuth();
+
+  // useEffect(() => {
+  //   onAuthStateChanged(auth, (user) => {
+  //     console.log(user);
+  //   });
+  // }, [auth]);
 
   return (
     <View style={styles.container}>
@@ -39,6 +42,11 @@ export default function TabOneScreen() {
       <Button
         title='Login'
         onPress={() => signInEmailPass(email, password, setUserInfo)}
+      />
+      <Button
+        title='Logout'
+        // onPress={() => signInEmailPass(email, password, setUserInfo)}
+        onPress={logout}
       />
     </View>
   );
