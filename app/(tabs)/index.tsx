@@ -1,23 +1,19 @@
 /** @format */
 
-import { StyleSheet } from "react-native";
+import { Button, StyleSheet } from "react-native";
 
-import { View } from "@/components/Themed";
-import {
-  getAuth,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { Text, View } from "@/components/Themed";
+import { UserCredential, getAuth, onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { Input } from "../components/input/input.component";
+import { signInEmailPass } from "../modules/authentication/sign-in-email-pass";
 
 export default function TabOneScreen() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [userInfo, setUserInfo] = useState<UserCredential | null>(null);
+
   const auth = getAuth();
-  function aa() {
-    signInWithEmailAndPassword(auth, "teste@firebase.com", "123456545");
-  }
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -27,14 +23,23 @@ export default function TabOneScreen() {
 
   return (
     <View style={styles.container}>
-      <Input placeholder='Email' />
-      {/* <TouchableOpacity
-        onPress={() => {
-          aa();
-        }} 
-      >
-        <Text>Test</Text>
-      </TouchableOpacity> */}
+      {userInfo !== null && userInfo ? (
+        <Text style={{ color: "black" }}>{userInfo.user.email}</Text>
+      ) : null}
+      <Input
+        placeholder='Email'
+        onChangeText={(text) => setEmail(text)}
+        value={email}
+      />
+      <Input
+        placeholder='Senha'
+        onChangeText={(text) => setPassword(text)}
+        value={password}
+      />
+      <Button
+        title='Login'
+        onPress={() => signInEmailPass(email, password, setUserInfo)}
+      />
     </View>
   );
 }
