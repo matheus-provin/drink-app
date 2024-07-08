@@ -50,6 +50,15 @@ export default function RootLayout() {
     return null;
   }
 
+  async function init() {
+    const auth = useRecoilValue(authTokenRecoilState);
+    if (auth) console.log("logado");
+  }
+
+  // useEffect(() => {
+  //   init();
+  // }, []);
+
   return (
     <RecoilRoot>
       <RootLayoutNav />
@@ -57,21 +66,19 @@ export default function RootLayout() {
   );
 }
 
-function RootLayoutNav() {
+export function RootLayoutNav() {
   const colorScheme = useColorScheme();
-
   const auth = useRecoilValue(authTokenRecoilState);
-
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
-        {auth.token ? (
+        {auth ? (
           <>
-            <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-            <Stack.Screen name='modal' options={{ presentation: "modal" }} />
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="modal" options={{ presentation: "modal" }} />
           </>
         ) : (
-          <Stack.Screen name='(auth)' options={{ headerShown: false }} />
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         )}
       </Stack>
     </ThemeProvider>

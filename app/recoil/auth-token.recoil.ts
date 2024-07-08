@@ -1,14 +1,11 @@
 /** @format */
 
+import { UserCredential } from "firebase/auth";
 import ReactNativeRecoilPersist from "react-native-recoil-persist";
 import { atom } from "recoil";
 
-interface AuthState {
-  token: string;
-}
-
-export const authTokenRecoilState = atom<AuthState>({
+export const authTokenRecoilState = atom<UserCredential | null>({
   key: "authState",
-  default: { token: "" },
+  default: null,
   effects_UNSTABLE: [ReactNativeRecoilPersist.persistAtom],
 });

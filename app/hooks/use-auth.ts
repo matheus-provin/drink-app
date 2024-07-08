@@ -23,8 +23,7 @@ export const useAuth = () => {
         email,
         password
       );
-      const token = await userCredential.user.getIdToken();
-      setUser({ token });
+      setUser(userCredential);
       return userCredential;
     } catch (error) {
       console.error("Falha login", error);
@@ -35,7 +34,7 @@ export const useAuth = () => {
   const logout = async () => {
     try {
       await auth.signOut();
-      setUser({ token: "" });
+      setUser(null);
     } catch (error) {
       console.error("Erro logout", error);
     }

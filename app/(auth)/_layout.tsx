@@ -29,17 +29,17 @@ export default function AuthLayout() {
       }}
     >
       <Tabs.Screen
-        name='login'
+        name="login"
         options={{
-          title: "Login",
-          tabBarIcon: ({ color }) => <TabBarIcon name='bars' color={color} />,
+          title: "login",
+          tabBarIcon: ({ color }) => <TabBarIcon name="bars" color={color} />,
         }}
       />
       <Tabs.Screen
-        name='register'
+        name="register"
         options={{
-          title: "Register",
-          tabBarIcon: ({ color }) => <TabBarIcon name='code' color={color} />,
+          title: "register",
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
     </Tabs>
