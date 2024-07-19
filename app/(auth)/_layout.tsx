@@ -1,47 +1,18 @@
 /** @format */
 
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Tabs } from "expo-router";
 import React from "react";
 
-import { useClientOnlyValue } from "@/components/useClientOnlyValue";
-import { useColorScheme } from "@/components/useColorScheme";
-import Colors from "@/constants/Colors";
+import { createStackNavigator } from "@react-navigation/stack";
+import { LoginScreen } from "./login.screen";
+import { RegisterScreen } from "./register.screen";
 
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
-
-export default function AuthLayout() {
-  const colorScheme = useColorScheme();
+export default function AuthStack() {
+  const Stack = createStackNavigator();
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
-      }}
-    >
-      <Tabs.Screen
-        name="login"
-        options={{
-          title: "login",
-          tabBarIcon: ({ color }) => <TabBarIcon name="bars" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="register"
-        options={{
-          title: "register",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />
-    </Tabs>
+    <Stack.Navigator>
+      <Stack.Screen component={LoginScreen} name='LoginScreen' />
+      <Stack.Screen component={RegisterScreen} name='RegisterScreen' />
+    </Stack.Navigator>
   );
 }
