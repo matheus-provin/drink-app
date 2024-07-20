@@ -1,6 +1,7 @@
 /** @format */
 
 import { Text } from "@/components/Themed";
+import { getAuth, UserCredential } from "firebase/auth";
 import { FC, useState } from "react";
 import { Button, StyleSheet, View } from "react-native";
 import { useRecoilState } from "recoil";
@@ -15,11 +16,13 @@ export const LoginScreen: FC = ({}) => {
   const { logout } = useAuth();
   const [user, setUser] = useRecoilState(authTokenRecoilState);
 
-  // useEffect(() => {
-  //   onAuthStateChanged(auth, (user) => {
-  //     console.log(user);
-  //   });
-  // }, [auth]);
+  const [login, setLogin] = useState<UserCredential | undefined>();
+  async function signIn() {
+    const auth = getAuth();
+    console.log("entrou no login");
+    const login = await signInEmailPass(email, password, auth, setUser);
+    // setLogin(login);
+  }
 
   return (
     <View style={styles.container}>
@@ -29,6 +32,11 @@ export const LoginScreen: FC = ({}) => {
         <Text style={{ color: "black" }}>Usuário não logado</Text>
       )}
       <View style={styles.inputContainer}>
+        {login ? (
+          <Text style={{ color: "black" }}>{login.user.email}</Text>
+        ) : (
+          <></>
+        )}
         <Input
           placeholder='Email'
           onChangeText={(text) => setEmail(text)}
@@ -40,10 +48,7 @@ export const LoginScreen: FC = ({}) => {
           value={password}
         />
       </View>
-      <Button
-        title='Login'
-        onPress={() => signInEmailPass(email, password, setUser)}
-      />
+      <Button title='Login' onPress={signIn} />
     </View>
   );
 };
