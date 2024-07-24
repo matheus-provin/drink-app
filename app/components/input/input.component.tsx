@@ -20,6 +20,7 @@ export const Input: FC<InputProps> = ({
       style={error ? styles.inputError : styles.input}
       value={value}
       onChangeText={onChangeText}
+      placeholderTextColor={"black"}
     />
   );
 };
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
     color: "black",
     borderRadius: 8,
     fontSize: 16,
-    borderColor: "blue",
+    borderColor: "grey",
     borderWidth: 1,
   },
   inputError: {
