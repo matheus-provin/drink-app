@@ -20,7 +20,12 @@ export const LoginScreen: FC = ({}) => {
   async function signIn() {
     const auth = getAuth();
     console.log("entrou no login");
-    const login = await signInEmailPass(email, password, auth, setUser);
+    const login = await signInEmailPass(
+      "teste@teste.com",
+      "123456",
+      auth,
+      setUser
+    );
     // setLogin(login);
   }
 
@@ -38,17 +43,17 @@ export const LoginScreen: FC = ({}) => {
           <></>
         )}
         <Input
-          placeholder='Email'
+          placeholder="Email"
           onChangeText={(text) => setEmail(text)}
           value={email}
         />
         <Input
-          placeholder='Senha'
+          placeholder="Senha"
           onChangeText={(text) => setPassword(text)}
           value={password}
         />
       </View>
-      <Button title='Login' onPress={signIn} />
+      <Button title="Login" onPress={signIn} />
     </View>
   );
 };
