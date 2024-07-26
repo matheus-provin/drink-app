@@ -5,5 +5,5 @@ export async function getCocktailBySomeIngredientsController(
 ) {
   const response = await getCocktailBySomeIngredients(ingredients);
 
-  console.log(response[0].ingredients);
+  return response;
 }
